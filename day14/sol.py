@@ -1,5 +1,5 @@
 def print_grid(grid, width):
-    for j in range(max_h+1):
+    for j in range(max_h+3):
         print(''.join(grid[j][500-width:500+width+1]))
 
 def get_dr(c, n):
@@ -29,7 +29,8 @@ for line in lines:
         
     segments.append(segment)
 
-grid = [['.' for i in range(1000)] for j in range(max_h+1)]
+grid = [['.' for i in range(1000)] for j in range(max_h+2)]
+grid.append(['#' for i in range(1000)])
 
 # draw segments
 for s in segments:
@@ -53,10 +54,6 @@ while True:
     p = (500, 0)
     dropped += 1
     while True:
-        if p[1] == max_h:
-            should_continue = False
-            break
-    
         if grid[p[1]+1][p[0]] == '.':
             p = (p[0], p[1]+1)
         elif grid[p[1]+1][p[0]-1] == '.':
@@ -65,8 +62,10 @@ while True:
             p = (p[0]+1, p[1]+1)
         else:
             # can't move any futher
+            if p == (500, 0):
+                should_continue = False
             grid[p[1]][p[0]] = 'o'
             break
 print_grid(grid, 10)
  
-print(dropped-1)
+print(dropped)
